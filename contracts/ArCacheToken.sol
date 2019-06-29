@@ -18,7 +18,7 @@ contract ArCacheToken is ERC721Token {
     _mint(msg.sender, _id);
   }
 
-  function getColorFromId(uint id) public view returns(uint8, uint8) {
+  function getObjectVisualFromId(uint id) public view returns(uint8, uint8) {
     return (objects[id].texture, objects[id].type);
   }
 }
