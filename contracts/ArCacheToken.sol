@@ -23,7 +23,7 @@ contract ArCacheToken is ERC721Token {
   //this way people have to actually go to the location of an ArCache, rather than cheating by simply
   //calling the mint() function on the contract
   function transferFrom(address from, address to, uint256 tokenId) public {
-
+      require(owner == msg.sender)
       _transferFrom(address from, address to, uint256 tokenId)
   }
 
