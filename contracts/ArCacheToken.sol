@@ -16,11 +16,10 @@ contract ArCacheToken is ERC721Token {
     Object memory _object = Object(uint8(now), uint8(now-1000));
     uint _id = objects.push(_object) - 1;
     _mint(address(0), _id);
-    transferFrom(address(0), msg.sender, tokenId)
   }
 
   function transferFrom(address from, address to, uint256 tokenId) public {
-      
+
       _transferFrom(address from, address to, uint256 tokenId)
   }
 
