@@ -1,8 +1,13 @@
 pragma solidity >=0.4.21 <0.6.0;
 
 import './node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Token.sol';
-
+import "../../math/SafeMath.sol";
 contract ArCacheToken is ERC721Token {
+  using SafeMath for uint256;
+  bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
+
+  // Mapping from token ID to owner
+  mapping (uint256 => address) private _tokenOwner;
   constructor() ERC721("ArCache Token", "ARCT") public {}
 
   //object struct, containing texture and type (sword, coin, etc.)
@@ -31,4 +36,31 @@ contract ArCacheToken is ERC721Token {
   function getObjectVisualFromId(uint id) public view returns(uint8, uint8) {
     return (objects[id].texture, objects[id].type);
   }
+  //Mint Function from ERC721
+  function _mint(address to, uint256 tokenId) internal {
+        require(to != address(0), "ERC721: mint to the zero address");
+        require(!_exists(tokenId), "ERC721: token already minted");
+
+        _tokenOwner[tokenId] = to;
+        _ownedTokensCount[to].increment();
+
+        emit Transfer(address(0), to, tokenId);
+    }
+  // * @dev Gets the balance of the specified address.
+  //    * @param owner address to query the balance of
+  //    * @return uint256 representing the amount owned by the passed address
+  //    */
+    function balanceOf(address owner) public view returns (uint256) {
+        require(owner != address(0), "ERC721: balance query for the zero address");
+
+        return _ownedTokensCount[owner].current();
+    }
+
+    function transferFrom(address from, address to, uint256 tokenId) public {
+        //solhint-disable-next-line max-line-length
+        require(_isApprovedOrOwner(msg.sender, tokenId), "ERC721: transfer caller is not owner nor approved");
+
+        _transferFrom(from, to, tokenId);
+    }
+
 }
