@@ -46,10 +46,7 @@ contract ArCacheToken is ERC721Token {
 
         emit Transfer(address(0), to, tokenId);
     }
-  // * @dev Gets the balance of the specified address.
-  //    * @param owner address to query the balance of
-  //    * @return uint256 representing the amount owned by the passed address
-  //    */
+  //  From openzeppelin
     function balanceOf(address owner) public view returns (uint256) {
         require(owner != address(0), "ERC721: balance query for the zero address");
 
